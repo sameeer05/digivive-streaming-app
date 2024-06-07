@@ -1,13 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>VLC Multiple Streams</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VLC Stream Launcher</title>
+  <link href="node_modules/video.js/dist/video-js.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Multiple VLC Streams</h1>
-  <div id="players">
-    <iframe src="http://localhost:8080" width="400" height="300"></iframe>
-    <iframe src="http://localhost:8081" width="400" height="300"></iframe>
+  <div id="formContainer">
+    <h1>VLC Stream Launcher</h1>
+    <form id="streamForm">
+      <div id="formFields"></div>
+      <button type="submit">Launch Streams</button>
+    </form>
   </div>
+  
+  <div id="streamsContainer" class="hidden"> <!-- hidden -->
+    <button id="backButton">Back</button>
+    <div id="streams"></div>
+  </div>
+
+  <!-- Include jQuery before your custom script -->
+  <script>
+    window.$ = window.jQuery = require("jquery");
+  </script>
+  <script src="node_modules/video.js/dist/video.js"></script>
+  <script src="renderer.js"></script>
 </body>
 </html>

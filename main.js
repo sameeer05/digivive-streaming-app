@@ -1,19 +1,20 @@
 const { app, BrowserWindow } = require('electron');
-const { exec } = require('child_process');
 const path = require('path');
 
-let mainWindow;
-
 function createWindow() {
-  mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+  const mainWindow = new BrowserWindow({
+    width: 1200,
+    height: 800,
+    // fullscreen: true,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: true,
+      contextIsolation: false,
     },
   });
 
   mainWindow.loadFile('index.html');
+  mainWindow.maximize();
+  mainWindow.show();
 }
 
 app.whenReady().then(() => {
@@ -24,13 +25,6 @@ app.whenReady().then(() => {
       createWindow();
     }
   });
-
-  // Open VLC instances with network stream URLs
-  const stream1 = 'http://example.com/stream1';
-  const stream2 = 'http://example.com/stream2';
-
-  exec(`"C:\\Program Files\\VideoLAN\\VLC\\vlc.exe" ${stream1} --extraintf http --http-port=8080 --no-video-deco --no-embedded-video`);
-  exec(`"C:\\Program Files\\VideoLAN\\VLC\\vlc.exe" ${stream2} --extraintf http --http-port=8081 --no-video-deco --no-embedded-video`);
 });
 
 app.on('window-all-closed', () => {
