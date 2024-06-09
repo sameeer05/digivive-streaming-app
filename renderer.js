@@ -1,16 +1,22 @@
 $(document).ready(function() {
-  const streamCount = 6;
+  const streamCount = 20;
 
   // Generate the form fields dynamically
   for (let i = 1; i <= streamCount; i++) {
     $('#formFields').append(`
-      <div>
-        <label for="stream${i}Name">Stream ${i} Name:</label>
-        <input type="text" id="stream${i}Name" name="stream${i}Name" value="Stream ${i}" required>
-      </div>
-      <div>
-        <label for="stream${i}">Stream URL ${i}:</label>
-        <input type="text" id="stream${i}" name="stream${i}" value="https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8" required>
+      <div class="row">
+        <div class="col-1 d-flex align-items-center">
+          <span class="">Stream&nbsp${i}:</span>
+        </div>
+        <div class="col-3">
+          <!-- <label for="stream${i}Name">Name:</label> -->
+          <input type="text" id="stream${i}Name" name="stream${i}Name" placeholder="Name" value="Stream ${i}" required>
+        </div>
+        <div class="col-8">
+          <!-- <label for="stream${i}">URL:</label> -->
+          <input type="text" id="stream${i}" name="stream${i}" placeholder="URL" value="https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8" required>
+        </div>
+        <br/>
       </div>
     `);
 
