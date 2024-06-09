@@ -1,11 +1,11 @@
 const { app, BrowserWindow } = require('electron');
-const path = require('path');
+// const path = require('path');
+let mainWindow;
 
 function createWindow() {
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
-    // fullscreen: true,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -16,6 +16,14 @@ function createWindow() {
   mainWindow.maximize();
   mainWindow.show();
 }
+
+// Development setup
+// if (process.env.NODE_ENV === 'development') {
+//   console.log('dev mode');
+//   require('electron-reload')(__dirname, {
+//     electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
+//   });
+// }
 
 app.whenReady().then(() => {
   createWindow();

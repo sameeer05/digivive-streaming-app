@@ -9,23 +9,54 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="formContainer">
-    <h1>Digivive Multi-Stream</h1>
+  <div id="initialContainer" class="container-fluid">
+    <form id="initialForm">
+      <div class="row d-flex justify-content-center align-items-center mt-5">
+        <h1 class="col-12 text-center mb-3">Digivive Multi-Stream</h1>
+        <div class="col-4">
+          <label for="streamCount">Number of Streams:</label>
+        </div>
+        <div class="col-4">
+          <input type="number" id="streamCount" name="streamCount" class="form-control" min="1" max="50" required>
+        </div>
+        <div class="col-4">
+          <button id="nextButton" type="submit" class="btn btn-primary mt-2 mt-sm-0">Next</button>
+        </div>
+        <div class="col-12 mt-5 mb-5 text-center">
+          <span class="text-center">
+            -------------------------------------------------------OR-------------------------------------------------------
+          </span>
+        </div>
+        <div class="col-12 mt-4">
+          <label for="excelFile">Upload Excel File:</label>
+          <input type="file" id="excelFile" name="excelFile" class="form-control">
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div id="formContainer" class="container-fluid hidden">
     <form id="streamForm">
+      <div class="row d-flex justify-content-between sticky-top bg-white py-2">
+        <div class="col d-flex justify-content-start">
+          <button id="formBackButton" type="button" class="btn btn-secondary">Back</button>
+          <h1 class="col">Digivive Multi-Stream</h1>
+        </div>
+        <button type="submit" class="col btn btn-primary me-2">Launch Streams</button>
+      </div>
       <div id="formFields" class="container-fluid"></div>
-      <button type="submit">Launch Streams</button>
     </form>
   </div>
   
-  <div id="streamsContainer" class="hidden"> <!-- hidden -->
-    <button id="backButton">Back</button>
-    <div id="streams"></div>
+  <div id="streamsContainer" class="hidden">
+    <button id="backButton" class="btn btn-secondary mb-3">Back</button>
+    <div id="streams"></div> <!--  class="grid" -->
   </div>
 
-  <!-- Include jQuery before your custom script -->
   <script>
     window.$ = window.jQuery = require("jquery");
   </script>
+  <!-- <script src="node_modules/xlsx/dist/xlsx.full.min.js"></script> -->
   <script src="node_modules/video.js/dist/video.js"></script>
   <script src="renderer.js"></script>
 </body>
