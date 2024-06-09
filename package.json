@@ -40,6 +40,7 @@
   "dependencies": {
     "bootstrap": "^5.3.3",
     "jquery": "^3.6.0",
-    "video.js": "^7.14.3"
+    "video.js": "^7.14.3",
+    "xlsx": "^0.18.5"
   }
 }
