@@ -2,17 +2,32 @@ const XLSX = require('xlsx');
 
 $(document).ready(function() {
   let streamCount = 0;
+  let excelData = [];
+  let refreshMinutes = 15;
+  let videoHeight = 200;
+  let videoWidth = 300;
+  let refreshInterval;
 
   // Handle Next button click
   $('#initialForm').on('submit', function(event) {
     event.preventDefault();
     streamCount = $('#streamCount').val();
-    if (streamCount > 0 && streamCount <= 50) {
-      generateFormFields(streamCount);
+    videoHeight = $('#videoHeight').val();
+    videoWidth = $('#videoWidth').val();
+    refreshMinutes = $('#refreshTime').val();
+    
+    if (excelData.length > 0) {
+      generateFormFieldsFromExcel(excelData);
       $('#initialContainer').addClass('hidden');
       $('#formContainer').removeClass('hidden');
     } else {
-      alert('Please enter a number between 1 and 50.');
+      if (streamCount > 0 && streamCount <= 50) {
+        generateFormFields(streamCount);
+        $('#initialContainer').addClass('hidden');
+        $('#formContainer').removeClass('hidden');
+      }// else {
+      //   alert('Please enter a number between 1 and 50.');
+      // }
     }
   });
 
@@ -28,15 +43,50 @@ $(document).ready(function() {
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
         const jsonData = XLSX.utils.sheet_to_json(worksheet);
+        console.log(jsonData);
 
         streamCount = jsonData.length;
-        generateFormFieldsFromExcel(jsonData);
-        $('#initialContainer').addClass('hidden');
-        $('#formContainer').removeClass('hidden');
+        excelData = jsonData;
+
+        $('#streamCount').removeAttr('required');
+        $('#streamCountRow').addClass('no_click');
+        $('#removeFileButton').removeAttr('disabled');
+
+        // generateFormFieldsFromExcel(jsonData);
+        // $('#initialContainer').addClass('hidden');
+        // $('#formContainer').removeClass('hidden');
       };
       reader.readAsArrayBuffer(file);
     }
   });
+
+  $('#removeFileButton').on('click', function() {
+    $('#excelFile').val('');
+    $('#streamCount').attr('required', 'required');
+    $('#removeFileButton').attr('disabled', 'disabled');
+    $('#streamCountRow').removeClass('no_click');
+    excelData = [];
+    streamCount = 0;
+  });
+
+  function startTimer() {
+    let refreshSeconds = refreshMinutes * 60;
+    refreshInterval = setInterval(() => {
+      if(refreshSeconds === 0) {
+        clearInterval(refreshInterval);
+        $('#refreshText').html('Refreshing...');
+        setTimeout(() => {
+          launchStream();
+        }, 1000);
+      } else {
+        refreshSeconds--;
+        let minutes = parseInt(refreshSeconds / 60);
+        let seconds = refreshSeconds % 60;
+        let text = `Refresh In: ${minutes >= 10 ? minutes : '0' + minutes}:${seconds >= 10 ? seconds : '0' + seconds}`;
+        $('#refreshText').html(text);
+      }
+    }, 1000);
+  }
 
   // Generate the form fields dynamically
   function generateFormFields(count) {
@@ -60,7 +110,7 @@ $(document).ready(function() {
       $('#streams').append(`
         <div class="stream-container" id="stream${i}Container">
           <h3 id="stream${i}Title">Stream ${i}</h3>
-          <video id="video${i}" class="video-js vjs-default-skin" controls preload="auto" width="300px" height="200px" muted></video>
+          <video id="video${i}" class="video-js vjs-default-skin" controls preload="auto" width="${videoWidth}px" height="${videoHeight}px" muted></video>
         </div>
       `);
     }
@@ -88,16 +138,15 @@ $(document).ready(function() {
 
       $('#streams').append(`
         <div class="stream-container" id="stream${i}Container">
-          <h3 id="stream${i}Title">${stream.name}</h3>
-          <video id="video${i}" class="video-js vjs-default-skin" controls preload="auto" width="300px" height="200px" muted></video>
+          <h3 class="streamTitle" id="stream${i}Title">${stream.name}</h3>
+          <video id="video${i}" class="video-js vjs-default-skin" controls preload="auto" width="${videoWidth}px" height="${videoHeight}px" muted></video>
         </div>
       `);
     });
   }
 
-  // Handle form submission
-  $('#streamForm').on('submit', function(event) {
-    event.preventDefault();
+  function launchStream() {
+    // event.preventDefault();
 
     for (let i = 1; i <= streamCount; i++) {
       const streamName = $(`#stream${i}Name`).val();
@@ -119,10 +168,18 @@ $(document).ready(function() {
 
     $('#formContainer').addClass('hidden');
     $('#streamsContainer').removeClass('hidden');
+    startTimer();
+  }
+
+  // Handle form submission
+  $('#streamForm').on('submit', (event) => {
+    event.preventDefault();
+    launchStream();
   });
 
   // Handle back button click in streamsContainer
   $('#backButton').on('click', function() {
+    clearInterval(refreshInterval);
     $('#formContainer').removeClass('hidden');
     $('#streamsContainer').addClass('hidden');
 

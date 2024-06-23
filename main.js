@@ -10,6 +10,7 @@ function createWindow() {
       nodeIntegration: true,
       contextIsolation: false,
     },
+    autoHideMenuBar: true,
   });
 
   mainWindow.loadFile('index.html');
