@@ -93,6 +93,7 @@ h3 {
 
 /* Hide unnecessary video player controls */
 .video-js .vjs-play-control,
+.video-js .vjs-big-play-button,
 .video-js .vjs-current-time,
 .video-js .vjs-time-divider,
 .video-js .vjs-duration,
