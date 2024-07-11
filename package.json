@@ -10,7 +10,7 @@
   },
   "build": {
     "appId": "com.example.digivivestreamingapp",
-    "productName": "Digivive multi-streaming app made using electron.",
+    "productName": "Digivive multi-stream",
     "directories": {
       "output": "dist"
     },

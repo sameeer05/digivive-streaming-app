@@ -109,9 +109,10 @@ $(document).ready(function() {
         </div>
       `);
 
+      let titleSize = videoHeight / 8;
       $('#streams').append(`
         <div class="stream-container" id="stream${i}Container">
-          <h3 id="stream${i}Title">Stream ${i}</h3>
+          <h3 id="stream${i}Title" style="font-size: ${titleSize}px !important;">Stream ${i}</h3>
           <video id="video${i}" class="video-js vjs-default-skin" controls preload="auto" width="${videoWidth}px" height="${videoHeight}px" muted></video>
         </div>
       `);
@@ -138,9 +139,10 @@ $(document).ready(function() {
         </div>
       `);
 
+      let titleSize = videoHeight / 8;
       $('#streams').append(`
         <div class="stream-container" id="stream${i}Container">
-          <h3 class="streamTitle" id="stream${i}Title">${stream.name}</h3>
+          <h3 class="streamTitle" id="stream${i}Title" style="font-size: ${titleSize}px !important;">${stream.name}</h3>
           <video id="video${i}" class="video-js vjs-default-skin" controls preload="auto" width="${videoWidth}px" height="${videoHeight}px" muted></video>
         </div>
       `);
