@@ -11,10 +11,12 @@ $(document).ready(function() {
   // Handle Next button click
   $('#initialForm').on('submit', function(event) {
     event.preventDefault();
-    streamCount = $('#streamCount').val();
     videoHeight = $('#videoHeight').val();
     videoWidth = $('#videoWidth').val();
     refreshMinutes = $('#refreshTime').val();
+    if (excelData?.length <= 0) {
+      streamCount = $('#streamCount').val();
+    }
     
     if (excelData.length > 0) {
       generateFormFieldsFromExcel(excelData);
